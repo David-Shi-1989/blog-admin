@@ -51,6 +51,44 @@ export default [
     ]
   },
   {
+    path: '/article',
+    name: 'article',
+    meta: {
+      icon: 'md-cloud-upload',
+      title: '文章'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'list',
+        name: 'article_list',
+        meta: {
+          icon: 'md-clipboard',
+          title: '列表'
+        },
+        component: () => import('@/view/article/list.vue')
+      },
+      {
+        path: 'class_list',
+        name: 'article_class_list',
+        meta: {
+          icon: 'ios-document',
+          title: '分类'
+        },
+        component: () => import('@/view/article/class.vue')
+      },
+      {
+        path: 'tag_list',
+        name: 'article_tag_list',
+        meta: {
+          icon: 'md-clipboard',
+          title: '标签'
+        },
+        component: () => import('@/view/article/tag.vue')
+      }
+    ]
+  },
+  {
     path: '',
     name: 'doc',
     meta: {
@@ -112,7 +150,7 @@ export default [
         name: 'count_to_page',
         meta: {
           icon: 'md-trending-up',
-          title: '数字渐变'
+          title: '数字渐变2'
         },
         component: () => import('@/view/components/count-to/count-to.vue')
       },
