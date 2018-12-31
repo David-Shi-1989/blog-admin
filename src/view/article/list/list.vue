@@ -1,28 +1,20 @@
 <template>
   <div>
-    <Card>
-      <Table ref="tables" searchable search-place="top" size="small" :data="tableData" :columns="columns" @on-delete="handleDelete" :height="520"></Table>
-    </Card>
+    <pageTable :listFunc="listFn" :tableColumn="columns"></pageTable>
   </div>
 </template>
 
 <script>
+import {getArticle} from '@/api/data'
+import pageTable from '_c/page-table'
 export default {
   name: 'article_list',
+  components: {pageTable},
   data () {
     return {
-      test: false,
-      tableData: [
-        { name: '文章1', class: '前端', datetime: 1544325734000, isOriginal: true, visitCount: 123, commentCount: 3 },
-        { name: '文章2', class: 'NodeJs', datetime: 1544325734000, isOriginal: true, visitCount: 78, commentCount: 21 },
-        { name: '文章3', class: '前端', datetime: 1544325734000, isOriginal: false, visitCount: 54, commentCount: 14 },
-        { name: '文章4', class: '前端', datetime: 1544325734000, isOriginal: true, visitCount: 12, commentCount: 2 },
-        { name: '文章5', class: '前端', datetime: 1544325734000, isOriginal: false, visitCount: 69, commentCount: 0 },
-        { name: '文章6', class: '前端', datetime: 1544325734000, isOriginal: true, visitCount: 14, commentCount: 2 },
-        { name: '文章7', class: '前端', datetime: 1544325734000, isOriginal: true, visitCount: 68, commentCount: 0 }
-      ],
+      listFn: getArticle,
       columns: [
-        { title: '文章名', key: 'name', sortable: true },
+        { title: '文章名', key: 'title', sortable: true },
         { title: '分类', key: 'class', sortable: false },
         {
           title: '原创',
@@ -61,11 +53,11 @@ export default {
           let date = new Date(timestamp)
           if (date) {
             let year = date.getFullYear()
-            let month = date.getMonth() + 1
-            let day = date.getDate()
-            let hour = date.getHours()
-            let minute = date.getMinutes()
-            let second = date.getSeconds()
+            let month = (date.getMonth() + 1 > 10) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))
+            let day = date.getDay() > 10 ? date.getDay() : ('0' + date.getDay())
+            let hour = date.getHours() > 10 ? date.getHours() : ('0' + date.getHours())
+            let minute = date.getMinutes() > 10 ? date.getMinutes() : ('0' + date.getMinutes())
+            let second = date.getSeconds() > 10 ? date.getSeconds() : ('0' + date.getSeconds())
             result = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second
           }
         } catch (e) {

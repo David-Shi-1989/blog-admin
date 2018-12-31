@@ -22,7 +22,7 @@
           :class="titleClass"
           @on-select="handleView"
         >
-          <MenuItem v-for="item in messageList" :name="item.msg_id" :key="`msg_${item.msg_id}`">
+          <MenuItem v-for="item in messageList" :name="item.msgId" :key="`msg_${item.msgId}`">
             <div>
               <p class="msg-title">{{ item.title }}</p>
               <Badge status="default" :text="item.create_time" />
@@ -107,13 +107,13 @@ export default {
     handleSelect (name) {
       this.currentMessageType = name
     },
-    handleView (msg_id) {
+    handleView (msgId) {
       this.contentLoading = true
-      this.getContentByMsgId({ msg_id }).then(content => {
+      this.getContentByMsgId({ msgId }).then(content => {
         this.messageContent = content
-        const item = this.messageList.find(item => item.msg_id === msg_id)
+        const item = this.messageList.find(item => item.msgId === msgId)
         if (item) this.showingMsgItem = item
-        if (this.currentMessageType === 'unread') this.hasRead({ msg_id })
+        if (this.currentMessageType === 'unread') this.hasRead({ msgId })
         this.stopLoading('contentLoading')
       }).catch(() => {
         this.stopLoading('contentLoading')
@@ -121,9 +121,9 @@ export default {
     },
     removeMsg (item) {
       item.loading = true
-      const msg_id = item.msg_id
-      if (this.currentMessageType === 'readed') this.removeReaded({ msg_id })
-      else this.restoreTrash({ msg_id })
+      const msgId = item.msgId
+      if (this.currentMessageType === 'readed') this.removeReaded({ msgId })
+      else this.restoreTrash({ msgId })
     }
   },
   mounted () {

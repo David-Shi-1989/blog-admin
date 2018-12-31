@@ -108,11 +108,11 @@ export default {
             v-click-outside={this.closeMenu}
           >
             <dropdown-menu slot="list">
-              {menuList.map(item => {
-                return (
-                  <dropdown-item name={item.key}>{item.label}</dropdown-item>
-                )
-              })}
+            {menuList.map(item => {
+              return (
+                <dropdown-item name={item.key}>{item.label}</dropdown-item>
+              )
+            })}
             </dropdown-menu>
           </dropdown>
         </div>

@@ -57,11 +57,11 @@ export default {
     setMessageTrashList (state, list) {
       state.messageTrashList = list
     },
-    updateMessageContentStore (state, { msg_id, content }) {
-      state.messageContentStore[msg_id] = content
+    updateMessageContentStore (state, { msgId, content }) {
+      state.messageContentStore[msgId] = content
     },
-    moveMsg (state, { from, to, msg_id }) {
-      const index = state[from].findIndex(_ => _.msg_id === msg_id)
+    moveMsg (state, { from, to, msgId }) {
+      const index = state[from].findIndex(_ => _.msgId === msgId)
       const msgItem = state[from].splice(index, 1)[0]
       msgItem.loading = false
       state[to].unshift(msgItem)
@@ -153,28 +153,28 @@ export default {
       })
     },
     // 根据当前点击的消息的id获取内容
-    getContentByMsgId ({ state, commit }, { msg_id }) {
+    getContentByMsgId ({ state, commit }, { msgId }) {
       return new Promise((resolve, reject) => {
-        let contentItem = state.messageContentStore[msg_id]
+        let contentItem = state.messageContentStore[msgId]
         if (contentItem) {
           resolve(contentItem)
         } else {
-          getContentByMsgId(msg_id).then(res => {
+          getContentByMsgId(msgId).then(res => {
             const content = res.data
-            commit('updateMessageContentStore', { msg_id, content })
+            commit('updateMessageContentStore', { msgId, content })
             resolve(content)
           })
         }
       })
     },
     // 把一个未读消息标记为已读
-    hasRead ({ state, commit }, { msg_id }) {
+    hasRead ({ state, commit }, { msgId }) {
       return new Promise((resolve, reject) => {
-        hasRead(msg_id).then(() => {
+        hasRead(msgId).then(() => {
           commit('moveMsg', {
             from: 'messageUnreadList',
             to: 'messageReadedList',
-            msg_id
+            msgId
           })
           commit('setMessageCount', state.unreadCount - 1)
           resolve()
@@ -184,13 +184,13 @@ export default {
       })
     },
     // 删除一个已读消息到回收站
-    removeReaded ({ commit }, { msg_id }) {
+    removeReaded ({ commit }, { msgId }) {
       return new Promise((resolve, reject) => {
-        removeReaded(msg_id).then(() => {
+        removeReaded(msgId).then(() => {
           commit('moveMsg', {
             from: 'messageReadedList',
             to: 'messageTrashList',
-            msg_id
+            msgId
           })
           resolve()
         }).catch(error => {
@@ -199,13 +199,13 @@ export default {
       })
     },
     // 还原一个已删除消息到已读消息
-    restoreTrash ({ commit }, { msg_id }) {
+    restoreTrash ({ commit }, { msgId }) {
       return new Promise((resolve, reject) => {
-        restoreTrash(msg_id).then(() => {
+        restoreTrash(msgId).then(() => {
           commit('moveMsg', {
             from: 'messageTrashList',
             to: 'messageReadedList',
-            msg_id
+            msgId
           })
           resolve()
         }).catch(error => {

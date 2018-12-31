@@ -26,7 +26,7 @@ export default {
           render: (h, { row }) => {
             return (
               <div>
-                <icon size={16} type={row.type === 'ajax' ? 'md-link' : 'md-code-working'}></icon>
+              <icon size={16} type={row.type === 'ajax' ? 'md-link' : 'md-code-working'}></icon>
               </div>
             )
           }

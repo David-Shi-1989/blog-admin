@@ -66,7 +66,7 @@ export default [
           icon: 'md-clipboard',
           title: '列表'
         },
-        component: () => import('@/view/article/list.vue')
+        component: () => import('@/view/article/list/index')
       },
       {
         path: 'class_list',

@@ -42,3 +42,10 @@ export const getOrgData = () => {
     method: 'get'
   })
 }
+
+export const getArticle = () => {
+  return axios.request({
+    url: 'api/article/list',
+    method: 'get'
+  })
+}
