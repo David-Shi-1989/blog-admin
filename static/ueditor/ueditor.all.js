@@ -8230,7 +8230,7 @@ UE.ajax = function() {
 
         var method = ajaxOpts.method.toUpperCase();
         var str = url + (url.indexOf("?")==-1?"?":"&") + (method=="POST"?"":submitStr+ "&noCache=" + +new Date);
-        xhr.open(method, str, ajaxOpts.async);
+        xhr.open(method, str.replace("&&","&"), ajaxOpts.async);
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4) {
                 if (!timeIsOut && xhr.status == 200) {
@@ -14454,7 +14454,7 @@ UE.plugin.register('copy', function () {
 
         ZeroClipboard.config({
             debug: false,
-            swfPath: me.options.UEDITOR_HOME_URL + 'static/ueditor/third-party/zeroclipboard/ZeroClipboard.swf'
+            swfPath: me.options.UEDITOR_HOME_URL + 'third-party/zeroclipboard/ZeroClipboard.swf'
         });
 
         var client = me.zeroclipboard = new ZeroClipboard();
@@ -14493,7 +14493,7 @@ UE.plugin.register('copy', function () {
                         initZeroClipboard();
                     } else {
                         utils.loadFile(document, {
-                            src: me.options.UEDITOR_HOME_URL + "static/ueditor/third-party/zeroclipboard/ZeroClipboard.js",
+                            src: me.options.UEDITOR_HOME_URL + "third-party/zeroclipboard/ZeroClipboard.js",
                             tag: "script",
                             type: "text/javascript",
                             defer: "defer"

@@ -9,6 +9,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackServerConfig = require('../build/webpack.server.conf')
 const compiler = webpack(webpackServerConfig)
 const apiRouter = require('./api/index')
+const ueditorRouter = require('./api/ueditor')
 
 const DIST_DIR = path.join(__dirname, '../', 'dist')
 
@@ -25,6 +26,8 @@ app.get('*', function (req, res, next) {
     headerContentType = 'text/css'
   } else if (req.url.endsWith('mp3') || req.url.endsWith('aac') || req.url.endsWith('m4a')) {
     headerContentType = 'audio/' + req.url.slice(req.url.length - 3)
+  } else if (req.url.endsWith('html')) {
+    headerContentType = 'text/html; charset=UTF-8'
   } else {
     headerContentType = 'application/json;charset=utf-8'
   }
@@ -53,17 +56,10 @@ app.get(['/', '/index.html'], (req, res, next) => {
     res.end()
   })
 })
-app.get(['/bootstrap.html'], (req, res) => {
-  fs.readFile(path.join(__dirname, '../bootstrap/index.html'), function (err, fr) {
-    if (err) {
-    } else {
-      res.header('Content-Type', 'text/html; charset=UTF-8')
-      res.send(fr)
-      res.end()
-    }
-  })
-})
 app.use('/api', apiRouter)
+app.use(ueditorRouter)
+
+// app.use('/api', ueditorRouter)
 app.listen(3000, () => {
   console.log('App listening on port 3000')
 })

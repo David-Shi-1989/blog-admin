@@ -30,7 +30,7 @@
         UEDITOR_HOME_URL: URL
 
         // 服务器统一请求接口路径
-        , serverUrl: URL + "api/ueditor"
+        , serverUrl: "api/ueditor"
 
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
         , toolbars: [[
@@ -54,12 +54,12 @@
         //语言配置项,默认是zh-cn。有需要的话也可以使用如下这样的方式来自动多语言切换，当然，前提条件是lang文件夹下存在对应的语言文件：
         //lang值也可以通过自动获取 (navigator.language||navigator.browserLanguage ||navigator.userLanguage).toLowerCase()
         ,lang:"zh-cn"
-        ,langPath:URL +"static/ueditor/lang/"
+        ,langPath:URL + "lang/"
 
         //主题配置项,默认是default。有需要的话也可以使用如下这样的方式来自动多主题切换，当然，前提条件是themes文件夹下存在对应的主题文件：
         //现有如下皮肤:default
         //,theme:'default'
-        ,themePath:URL +"static/ueditor/themes/"
+        ,themePath:URL +"themes/"
 
         //,zIndex : 900     //编辑器层级的基数,默认是900
 
@@ -83,14 +83,14 @@
         //如果自定义，最好给p标签如下的行高，要不输入中文时，会有跳动感
         //,initialStyle:'p{line-height:1em}'//编辑器层级的基数,可以用来改变字体等
 
-        ,iframeCssUrl: URL + 'static/ueditor/themes/iframe.css' //给编辑区域的iframe引入一个css文件
+        // ,iframeCssUrl: URL + 'themes/iframe.css' //给编辑区域的iframe引入一个css文件
 
         //indentValue
         //首行缩进距离,默认是2em
         //,indentValue:'2em'
 
-        //,initialFrameWidth:1000  //初始化编辑器宽度,默认1000
-        //,initialFrameHeight:320  //初始化编辑器高度,默认320
+        ,initialFrameWidth: '100%'  //初始化编辑器宽度,默认1000
+        ,initialFrameHeight: '100%' //初始化编辑器高度,默认320
 
         //,readonly : false //编辑器初始化结束后,编辑区域是否是只读的，默认是false
 
@@ -277,7 +277,7 @@
 
         //autoHeightEnabled
         // 是否自动长高,默认true
-        //,autoHeightEnabled:true
+        // ,autoHeightEnabled:true
 
         //scaleEnabled
         //是否可以拉伸长高,默认true(当开启时，自动长高失效)
@@ -332,9 +332,9 @@
         //,sourceEditor:"codemirror"
         //如果sourceEditor是codemirror，还用配置一下两个参数
         //codeMirrorJsUrl js加载的路径，默认是 URL + "third-party/codemirror/codemirror.js"
-        ,codeMirrorJsUrl:URL + "static/ueditor/third-party/codemirror/codemirror.js"
+        // ,codeMirrorJsUrl:URL + "third-party/codemirror/codemirror.js"
         //codeMirrorCssUrl css加载的路径，默认是 URL + "third-party/codemirror/codemirror.css"
-        ,codeMirrorCssUrl:URL + "static/ueditor/third-party/codemirror/codemirror.css"
+        // ,codeMirrorCssUrl:URL + "third-party/codemirror/codemirror.css"
         //编辑器初始化完成后是否进入源码模式，默认为否。
         //,sourceEditorFirst:false
 
@@ -430,8 +430,8 @@
     };
 
     function getUEBasePath(docUrl, confUrl) {
-
-        return getBasePath(docUrl || self.document.URL || self.location.href, confUrl || getConfigFilePath());
+        return 'static/ueditor/'
+        // return getBasePath(docUrl || self.document.URL || self.location.href, confUrl || getConfigFilePath());
 
     }
 
