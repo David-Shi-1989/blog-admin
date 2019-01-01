@@ -2,7 +2,8 @@ const express = require('express')
 const router = express.Router()
 
 router.get('/article/list', function (req, res) {
-  var data = require('../fakeData/article.js').getList(1, 20)
+  var query = req.query
+  var data = require('../fakeData/article.js').getList(query.current, query.size)
   var resData = {
     total: data.total,
     list: data.list,

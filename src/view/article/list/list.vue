@@ -37,7 +37,7 @@ export default {
           key: 'datetime',
           sortable: true,
           render: (h, params) => {
-            var val = this.getDatetime(params.row.datetime)
+            var val = (new Date(params.row.datetime)).format('yyyy/MM/dd hh:mm:ss')
             return h('span', {}, val)
           }
         }

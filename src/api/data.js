@@ -43,9 +43,9 @@ export const getOrgData = () => {
   })
 }
 
-export const getArticle = () => {
+export const getArticle = (current, size) => {
   return axios.request({
-    url: 'api/article/list',
+    url: 'api/article/list?current=' + current + '&' + 'size=' + size,
     method: 'get'
   })
 }

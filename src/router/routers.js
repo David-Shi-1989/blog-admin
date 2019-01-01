@@ -75,7 +75,7 @@ export default [
           icon: 'ios-document',
           title: '分类'
         },
-        component: () => import('@/view/article/class.vue')
+        component: () => import('@/view/article/list/class')
       },
       {
         path: 'tag_list',
@@ -84,7 +84,7 @@ export default [
           icon: 'md-clipboard',
           title: '标签'
         },
-        component: () => import('@/view/article/tag.vue')
+        component: () => import('@/view/article/list/tag')
       }
     ]
   },
