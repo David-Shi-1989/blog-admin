@@ -1,6 +1,10 @@
 <template>
   <div>
-    <pageTable :listFunc="listFn" :tableColumn="columns"></pageTable>
+    <pageTable
+      :listFunc="listFn"
+      :tableColumn="columns"
+      createBtnText="写文章"
+      @onCreateBtnClick="onCreateBtnClick"></pageTable>
   </div>
 </template>
 
@@ -46,25 +50,8 @@ export default {
   },
   methods: {
     handleDelete () {},
-    getDatetime (timestamp) {
-      var result = ''
-      if (timestamp && !isNaN(timestamp)) {
-        try {
-          let date = new Date(timestamp)
-          if (date) {
-            let year = date.getFullYear()
-            let month = (date.getMonth() + 1 > 10) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))
-            let day = date.getDay() > 10 ? date.getDay() : ('0' + date.getDay())
-            let hour = date.getHours() > 10 ? date.getHours() : ('0' + date.getHours())
-            let minute = date.getMinutes() > 10 ? date.getMinutes() : ('0' + date.getMinutes())
-            let second = date.getSeconds() > 10 ? date.getSeconds() : ('0' + date.getSeconds())
-            result = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second
-          }
-        } catch (e) {
-          console.warn(e)
-        }
-      }
-      return result
+    onCreateBtnClick () {
+      this.$router.push({name:'article_create'})
     }
   }
 }

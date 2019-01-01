@@ -85,7 +85,17 @@ export default [
           title: '标签'
         },
         component: () => import('@/view/article/list/tag')
-      }
+      },
+      {
+        path: 'add',
+        name: 'article_create',
+        meta: {
+          title: '写文章',
+          hideInBread: true,
+          hideInMenu: true
+        },
+        component: () => import('@/view/article/add_article')
+      },
     ]
   },
   {
