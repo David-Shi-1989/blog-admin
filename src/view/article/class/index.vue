@@ -120,7 +120,7 @@ export default {
           title: curItem.title,
           expand: true
         }
-        var aArr = aData.filter(item => item.parentId == curId)
+        var aArr = aData.filter(item => item.parentId === curId)
         if (aArr.length > 0) {
           obj.children = []
           for (let i = 0; i < aArr.length; i++) {
