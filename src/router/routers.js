@@ -75,7 +75,7 @@ export default [
           icon: 'ios-document',
           title: '分类'
         },
-        component: () => import('@/view/article/list/class')
+        component: () => import('@/view/article/class/index')
       },
       {
         path: 'tag_list',
@@ -95,7 +95,7 @@ export default [
           hideInMenu: true
         },
         component: () => import('@/view/article/add_article')
-      },
+      }
     ]
   },
   {

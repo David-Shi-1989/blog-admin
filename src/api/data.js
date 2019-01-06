@@ -49,3 +49,18 @@ export const getArticle = (current, size) => {
     method: 'get'
   })
 }
+
+export const getArticleClass = (current, size) => {
+  return axios.request({
+    url: 'api/article/class?current=' + current + '&' + 'size=' + size,
+    method: 'get'
+  })
+}
+
+export const addArticleClass = (data) => {
+  return axios.request({
+    url: 'api/article/class',
+    method: 'post',
+    data
+  })
+}

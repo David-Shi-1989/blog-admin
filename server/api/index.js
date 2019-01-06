@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const SqlController = require('../sql/article.js')
 
 router.get('/article/list', function (req, res) {
   var query = req.query
@@ -11,6 +12,19 @@ router.get('/article/list', function (req, res) {
     size: data.size
   }
   res.status(200).send(resData)
+})
+
+router.get('/article/class', function (req, res) {
+  SqlController.getClass().then((result) => {
+    res.status(200).send(result).end()
+  })
+})
+
+router.post('/article/class', function (req, res) {
+  var createData = req.body
+  SqlController.addClass(createData).then((result) => {
+    res.status(200).send(result).end()
+  })
 })
 
 router.post('/login', function (req, res) {

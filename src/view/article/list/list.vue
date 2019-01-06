@@ -51,7 +51,7 @@ export default {
   methods: {
     handleDelete () {},
     onCreateBtnClick () {
-      this.$router.push({name:'article_create'})
+      this.$router.push({name: 'article_create'})
     }
   }
 }
