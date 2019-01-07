@@ -21,10 +21,16 @@ router.get('/article/class', function (req, res) {
 })
 
 router.post('/article/class', function (req, res) {
-  var createData = req.body
-  SqlController.addClass(createData).then((result) => {
-    res.status(200).send(result).end()
-  })
+  var data = req.body
+  if (data.id) {
+    SqlController.updateClass(data).then((result) => {
+      res.status(200).send(result).end()
+    })
+  } else {
+    SqlController.addClass(data).then((result) => {
+      res.status(200).send(result).end()
+    })
+  }
 })
 
 router.post('/login', function (req, res) {

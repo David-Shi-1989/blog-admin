@@ -146,6 +146,7 @@ export default {
         h('span', {
           on: {
             dblclick: (evt) => {
+              data.backup = data.title
               this.$set(data, 'isEdit', true)
             }
           }
@@ -261,21 +262,28 @@ export default {
     editOK (oData, oNode) {
       var newData = {
         title: oData.title,
-        parentId: oData.parentId
+        parentId: oData.parentId,
+        id: oData.id
       }
-      // this.$set(oData, 'isEdit', false)
+      var isEdit = oData.id ? true : false
       addArticleClass(newData).then((res) => {
         if (res.data.isSuccess) {
           this.$set(oData, 'id', res.data.id)
           this.$set(oData, 'isEdit', false)
-          this.$Message.success('添加成功')
+          this.$Message.success(isEdit ? '编辑成功' : '添加成功')
         } else {
-          this.$Message.success('添加失败')
+          this.$Message.success(isEdit ? '编辑失败' : '添加失败')
         }
       })
     },
-    editCancel () {
-
+    editCancel (root, node, data) {
+      if (data.id) {
+        this.$set(data, 'title', data.backup)
+        delete data.backup
+        this.$set(data, 'isEdit', false)
+      } else {
+        // TODO 删除此节点
+      }
     }
   }
 }
