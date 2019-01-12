@@ -33,6 +33,17 @@ router.post('/article/class', function (req, res) {
   }
 })
 
+router.delete('/article/class', function (req, res) {
+  var data = req.body
+  if (data.length > 0) {
+    SqlController.removeClass(data).then((result) => {
+      res.status(200).send(result).end()
+    })
+  } else {
+    res.status(400).send('参数数组不能为空').end()
+  }
+})
+
 router.post('/login', function (req, res) {
   res.status(200).send({token: 'yes12345'})
 })

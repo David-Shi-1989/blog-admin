@@ -1,7 +1,8 @@
 var obj = {
   TableName: 'Article_Class',
   fields: {
-    id: 'class_parent_id',
+    id: 'class_id',
+    parentId: 'class_parent_id',
     name: 'class_name',
     createTime: 'class_create_time'
   },
@@ -62,6 +63,26 @@ var obj = {
         }
         if (err) {
           console.log('[UPDATE ERROR] - ', err.message)
+          resultObj.message = err.message
+        } else {
+          resultObj.isSuccess = true
+          resultObj.affectedRows = result.affectedRows
+        }
+        resolve(resultObj)
+      })
+    })
+  },
+  removeClass (data) {
+    const con = require('./index')
+    var insertSqlStr = `DELETE FROM \`Article_Class\` WHERE \``+this.fields.id+`\` IN (`+data.join(',')+`)`
+    insertSqlParams = []
+    return new Promise(function (resolve, reject) {
+      con.query(insertSqlStr, insertSqlParams, function (err, result) {
+        var resultObj = {
+          isSuccess: false
+        }
+        if (err) {
+          console.log('[INSERT ERROR] - ', err.message)
           resultObj.message = err.message
         } else {
           resultObj.isSuccess = true

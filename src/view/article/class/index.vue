@@ -5,11 +5,12 @@
         <Tree :data="data" :render="renderContent"></Tree>
       </div>
     </Card>
+    <confirmModal ref="confirmModal"></confirmModal>
   </div>
 </template>
-
 <script>
-import {getArticleClass, addArticleClass} from '@/api/data'
+import confirmModal from '_c/confirm'
+import {getArticleClass, addArticleClass, removeArticleClass} from '@/api/data'
 export default {
   name: 'article_class_list',
   data () {
@@ -97,12 +98,13 @@ export default {
       }
     }
   },
+  components: {confirmModal},
   created () {
     this.initData()
   },
   methods: {
     initData () {
-      getArticleClass().then((res) => {
+      getArticleClass(1, 200).then((res) => {
         var children = this.handleData(res.data.list)
         this.$set(this.data[0].children, children)
       })
@@ -254,10 +256,28 @@ export default {
       this.$set(data, 'children', children)
     },
     remove (root, node, data) {
-      const parentKey = root.find(el => el === node).parent
-      const parent = root.find(el => el.nodeKey === parentKey).node
-      const index = parent.children.indexOf(data)
-      parent.children.splice(index, 1)
+      var me = this
+      this.$refs.confirmModal.confirm({
+        title: "删除确认",
+        text: '确认删除吗？',
+        cb (isOK) {
+          if (isOK) {
+            removeArticleClass([data.id]).then((res) => {
+              if (res.data.isSuccess) {
+                me.$Message.success('删除成功')
+                me.initData()
+              }
+            })
+          }
+        }
+      })
+      function doRemove () {
+
+      }
+      // const parentKey = root.find(el => el === node).parent
+      // const parent = root.find(el => el.nodeKey === parentKey).node
+      // const index = parent.children.indexOf(data)
+      // parent.children.splice(index, 1)
     },
     editOK (oData, oNode) {
       var newData = {

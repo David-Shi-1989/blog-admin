@@ -49,7 +49,7 @@ export const getArticle = (current, size) => {
     method: 'get'
   })
 }
-
+// 获取article class
 export const getArticleClass = (current, size) => {
   return axios.request({
     url: 'api/article/class?current=' + current + '&' + 'size=' + size,
@@ -57,10 +57,19 @@ export const getArticleClass = (current, size) => {
   })
 }
 
+// 新增article class
 export const addArticleClass = (data) => {
   return axios.request({
     url: 'api/article/class',
     method: 'post',
     data
   })
+}
+
+export const removeArticleClass = (data) => {
+  return axios.request({
+    url: 'api/article/class',
+    method: 'delete',
+    data
+  }) 
 }
