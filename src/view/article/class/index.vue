@@ -10,7 +10,7 @@
 </template>
 <script>
 import confirmModal from '_c/confirm'
-import {getArticleClass, addArticleClass, removeArticleClass} from '@/api/data'
+import {getArticleClass, addArticleClass, removeArticleClass, ArticleClassNameRepeat} from '@/api/data'
 export default {
   name: 'article_class_list',
   data () {
@@ -61,34 +61,6 @@ export default {
             ])
           },
           children: [
-            // {
-            //   title: 'child 1-1',
-            //   expand: true,
-            //   children: [
-            //     {
-            //       title: 'leaf 1-1-1',
-            //       expand: true
-            //     },
-            //     {
-            //       title: 'leaf 1-1-2',
-            //       expand: true
-            //     }
-            //   ]
-            // },
-            // {
-            //   title: 'child 1-2',
-            //   expand: true,
-            //   children: [
-            //     {
-            //       title: 'leaf 1-2-1',
-            //       expand: true
-            //     },
-            //     {
-            //       title: 'leaf 1-2-1',
-            //       expand: true
-            //     }
-            //   ]
-            // }
           ]
         }
       ],
@@ -258,7 +230,7 @@ export default {
     remove (root, node, data) {
       var me = this
       this.$refs.confirmModal.confirm({
-        title: "删除确认",
+        title: '删除确认',
         text: '确认删除吗？',
         cb (isOK) {
           if (isOK) {
@@ -271,13 +243,6 @@ export default {
           }
         }
       })
-      function doRemove () {
-
-      }
-      // const parentKey = root.find(el => el === node).parent
-      // const parent = root.find(el => el.nodeKey === parentKey).node
-      // const index = parent.children.indexOf(data)
-      // parent.children.splice(index, 1)
     },
     editOK (oData, oNode) {
       var newData = {
@@ -285,14 +250,20 @@ export default {
         parentId: oData.parentId,
         id: oData.id
       }
-      var isEdit = oData.id ? true : false
-      addArticleClass(newData).then((res) => {
-        if (res.data.isSuccess) {
-          this.$set(oData, 'id', res.data.id)
-          this.$set(oData, 'isEdit', false)
-          this.$Message.success(isEdit ? '编辑成功' : '添加成功')
+      var isCreate = (oData.id !== undefined || oData.id !== null)
+      ArticleClassNameRepeat(newData.title, newData.id).then(isRepeat => {
+        if (!isRepeat) {
+          addArticleClass(newData).then((res) => {
+            if (res.data.isSuccess) {
+              this.$set(oData, 'id', res.data.id)
+              this.$set(oData, 'isEdit', false)
+              this.$Message.success(isCreate ? '新建成功' : '编辑成功')
+            } else {
+              this.$Message.success(isCreate ? '新建失败' : '编辑失败')
+            }
+          })
         } else {
-          this.$Message.success(isEdit ? '编辑失败' : '添加失败')
+          this.$Message.error('名称重复')
         }
       })
     },
@@ -302,7 +273,10 @@ export default {
         delete data.backup
         this.$set(data, 'isEdit', false)
       } else {
-        // TODO 删除此节点
+        const parentKey = root.find(el => el === node).parent
+        const parent = root.find(el => el.nodeKey === parentKey).node
+        const index = parent.children.indexOf(data)
+        parent.children.splice(index, 1)
       }
     }
   }

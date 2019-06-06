@@ -15,7 +15,7 @@ router.get('/article/list', function (req, res) {
 })
 
 router.get('/article/class', function (req, res) {
-  SqlController.getClass().then((result) => {
+  SqlController.getClass(req.query).then((result) => {
     res.status(200).send(result).end()
   })
 })

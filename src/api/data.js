@@ -52,7 +52,7 @@ export const getArticle = (current, size) => {
 // 获取article class
 export const getArticleClass = (current, size) => {
   return axios.request({
-    url: 'api/article/class?current=' + current + '&' + 'size=' + size,
+    url: `api/article/class?current=${current}&size=${size}`,
     method: 'get'
   })
 }
@@ -65,11 +65,26 @@ export const addArticleClass = (data) => {
     data
   })
 }
-
+// 删除article class
 export const removeArticleClass = (data) => {
   return axios.request({
     url: 'api/article/class',
     method: 'delete',
     data
-  }) 
+  })
+}
+// article class重名校验
+export const ArticleClassNameRepeat = (name, id) => {
+  return new Promise(function (resolve, reject) {
+    axios.request({
+      url: `api/article/class?class_name=${name}`,
+      method: 'get'
+    }).then(res => {
+      if (id) {
+        resolve(res.data.list.filter(item => item.id !== id).length > 0)
+      } else {
+        resolve(res.data.list.length > 0)
+      }
+    })
+  })
 }

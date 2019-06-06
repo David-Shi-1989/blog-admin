@@ -6,6 +6,7 @@
       </Input>
     </div>
     <div class="sww-article-wrap" id="article_editor_container"></div>
+    <Button type="primary">保存</Button>
   </Card>
 </template>
 
