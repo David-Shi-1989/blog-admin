@@ -2,27 +2,35 @@ var uuid = require('uuid')
 var obj = {
   TableName: 'Article_Class',
   fields: {
-    id: 'class_id',
-    parentId: 'class_parent_id',
-    name: 'class_name',
-    createTime: 'class_create_time'
+    class: {
+      id: 'class_id',
+      parentId: 'class_parent_id',
+      name: 'class_name',
+      create_time: 'class_create_time',
+      is_enable: 'is_enable'
+    },
+    article: {
+      id: 'article_id',
+      class_id: 'article_class_id',
+      title: 'article_title',
+      content: 'article_content',
+      create_time: 'article_create_time',
+      is_enable: 'is_enable'
+    }
   },
+  /******************************
+   * Class
+   ******************************/
   getClass (data) {
     var sql = `SELECT * FROM ${this.TableName}`
     let queryArr = []
     if (data) {
-      for (let key in this.fields) {
-        let column = this.fields[key]
+      for (let key in this.fields.class) {
+        let column = this.fields.class[key]
         if (data[column]) {
           queryArr.push(`\`${column}\`='${data[column]}'`)
         }
       }
-      // if (data[this.fields.name]) {
-      //   queryArr.push(`\`${this.fields.name}\` = '${data[this.fields.name]}'`)
-      // }
-      // if (data[this.fields.id]) {
-      //   queryArr.push(`\`${this.fields.id}\` = '${data[this.fields.id]}'`)
-      // }
     }
     if (queryArr.length > 0) {
       sql += ` WHERE ${queryArr.join(' AND ')}`
@@ -93,7 +101,7 @@ var obj = {
   },
   removeClass (data) {
     const con = require('./index')
-    var insertSqlStr = `DELETE FROM \`Article_Class\` WHERE \`${this.fields.id}\` IN ('${data.join(',')}')`
+    var insertSqlStr = `DELETE FROM \`Article_Class\` WHERE \`${this.fields.class.id}\` IN ('${data.join(',')}')`
     var insertSqlParams = []
     return new Promise(function (resolve, reject) {
       con.query(insertSqlStr, insertSqlParams, function (err, result) {
@@ -110,6 +118,12 @@ var obj = {
         resolve(resultObj)
       })
     })
+  },
+  /******************************
+   * Article
+   ******************************/
+  getArticle (data) {
+
   }
 }
 module.exports = obj
