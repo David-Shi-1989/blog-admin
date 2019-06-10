@@ -18,14 +18,14 @@ export default {
     return {
       listFn: getArticleList,
       columns: [
-        { title: '文章名', key: 'title', sortable: true },
-        { title: '分类', key: 'class', sortable: false },
+        { title: '文章名', key: 'article_title', sortable: true },
+        { title: '分类', key: 'article_class_id', sortable: false },
         {
           title: '原创',
-          key: 'isOriginal',
+          key: 'article_is_self',
           sortable: true,
           render: (h, params) => {
-            var val = params.row.isOriginal
+            var val = params.row.article_is_self
             return h('i-switch', {
               props: {
                 value: val,
@@ -34,14 +34,14 @@ export default {
             }, val)
           }
         },
-        { title: '访问量', key: 'visitCount', sortable: true },
-        { title: '评论量', key: 'commentCount', sortable: true },
+        { title: '访问量', key: 'article_read_count', sortable: true },
+        { title: '评论量', key: 'article_comment_count', sortable: true },
         {
           title: '发布时间',
-          key: 'datetime',
+          key: 'article_create_time',
           sortable: true,
           render: (h, params) => {
-            var val = (new Date(params.row.datetime)).format('yyyy/MM/dd hh:mm:ss')
+            var val = (new Date(params.row.article_create_time)).format('yyyy/MM/dd hh:mm:ss')
             return h('span', {}, val)
           }
         }

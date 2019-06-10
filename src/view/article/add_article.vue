@@ -92,7 +92,9 @@ export default {
         title: this.title,
         content: this.getEditorContent()
       }).then(res => {
-        console.log(res)
+        if (res.data.isSuccess) {
+          this.$Message.success('新建成功')
+        }
       })
     },
     getEditorContent () {

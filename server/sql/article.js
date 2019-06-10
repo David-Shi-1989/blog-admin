@@ -131,7 +131,35 @@ var obj = {
    * Article
    ******************************/
   getArticle (data) {
-
+    var sql = `SELECT * FROM ${this.TableName.list}`
+    let queryArr = []
+    if (data) {
+      for (let key in this.fields.class) {
+        let column = this.fields.class[key]
+        if (data[column]) {
+          queryArr.push(`\`${column}\`='${data[column]}'`)
+        }
+      }
+    }
+    if (queryArr.length > 0) {
+      sql += ` WHERE ${queryArr.join(' AND ')}`
+    }
+    const con = require('./index')
+    return new Promise(function (resolve, reject) {
+      con.query(sql, function (err, result) {
+        var resultObj = {
+          isSuccess: false
+        }
+        if (err) {
+          console.log('[SELECT ERROR] - ', err.message)
+          resultObj.message = err.message
+        } else {
+          resultObj.isSuccess = true
+          resultObj.list = result
+        }
+        resolve(resultObj)
+      })
+    })
   },
   addArticle (data) {
     const con = require('./index')

@@ -3,15 +3,18 @@ const router = express.Router()
 const SqlController = require('../sql/article.js')
 
 router.get('/article/list', function (req, res) {
-  var query = req.query
-  var data = require('../fakeData/article.js').getList(query.current, query.size)
-  var resData = {
-    total: data.total,
-    list: data.list,
-    current: data.current,
-    size: data.size
-  }
-  res.status(200).send(resData)
+  SqlController.getArticle(req.query).then((result) => {
+    res.status(200).send(result).end()
+  })
+  // var query = req.query
+  // var data = require('../fakeData/article.js').getList(query.current, query.size)
+  // var resData = {
+  //   total: data.total,
+  //   list: data.list,
+  //   current: data.current,
+  //   size: data.size
+  // }
+  // res.status(200).send(resData)
 })
 
 router.post('/article/list', function (req, res) {
