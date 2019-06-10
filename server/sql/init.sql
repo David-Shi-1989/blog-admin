@@ -19,5 +19,10 @@ CREATE TABLE IF NOT EXISTS Article_List
   article_title VARCHAR(100) NOT NULL,
   article_content TEXT NOT NULL,
   article_create_time DATETIME NOT NULL,
+  article_update_time DATETIME,
+  article_is_publish BIT DEFAULT 0 COMMENT '是否发布',
+  article_is_top BIT DEFAULT 0 COMMENT '是否置顶',
+  article_read_count INT(64) DEFAULT 0 COMMENT '阅读数量',
+  article_comment_count INT(64) DEFAULT 0 COMMENT '评论数量',
   is_enable BIT DEFAULT 1
 )ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

@@ -76,14 +76,14 @@ export default {
   },
   methods: {
     initData () {
-      getArticleClass(1, 200).then((res) => {
-        var children = this.handleData(res.data.list)
+      getArticleClass(1, 200).then(list => {
+        var children = this.handleData(list)
         this.$set(this.data[0].children, children)
       })
     },
     handleData (aData) {
       var arr = []
-      aData.filter(item => item.parentId < 0).forEach(item => {
+      aData.filter(item => !item.parentId).forEach(item => {
         arr.push(getItem(item))
       })
       this.data[0].children = arr

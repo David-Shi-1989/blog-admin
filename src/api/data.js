@@ -42,22 +42,38 @@ export const getOrgData = () => {
     method: 'get'
   })
 }
-
-export const getArticle = (current, size) => {
+// 获取文章列表
+export const getArticleList = (current, size) => {
   return axios.request({
     url: 'api/article/list?current=' + current + '&' + 'size=' + size,
     method: 'get'
   })
 }
-// 获取article class
-export const getArticleClass = (current, size) => {
+
+export const addArticle = (data) => {
   return axios.request({
-    url: `api/article/class?current=${current}&size=${size}`,
-    method: 'get'
+    url: 'api/article/list',
+    method: 'post',
+    data
   })
 }
 
-// 新增article class
+// 获取文章分类列表
+export const getArticleClass = (current, size) => {
+  return new Promise(function (resolve, reject) {
+    axios.request({
+      url: `api/article/class?current=${current}&size=${size}`,
+      method: 'get'
+    }).then(res => {
+      if (res.data.isSuccess) {
+        resolve(res.data.list)
+      } else {
+        reject(new Error('获取文字分类失败'))
+      }
+    })
+  })
+}
+// 新增文章分类
 export const addArticleClass = (data) => {
   return axios.request({
     url: 'api/article/class',
@@ -65,7 +81,7 @@ export const addArticleClass = (data) => {
     data
   })
 }
-// 删除article class
+// 删除文章分类
 export const removeArticleClass = (data) => {
   return axios.request({
     url: 'api/article/class',
@@ -73,7 +89,7 @@ export const removeArticleClass = (data) => {
     data
   })
 }
-// article class重名校验
+// 文章分类重名校验
 export const ArticleClassNameRepeat = (name, id) => {
   return new Promise(function (resolve, reject) {
     axios.request({

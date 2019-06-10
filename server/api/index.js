@@ -14,6 +14,13 @@ router.get('/article/list', function (req, res) {
   res.status(200).send(resData)
 })
 
+router.post('/article/list', function (req, res) {
+  var data = req.body
+  SqlController.addArticle(data).then((result) => {
+    res.status(200).send(result).end()
+  })
+})
+
 router.get('/article/class', function (req, res) {
   SqlController.getClass(req.query).then((result) => {
     res.status(200).send(result).end()

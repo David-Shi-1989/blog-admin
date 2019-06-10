@@ -9,14 +9,14 @@
 </template>
 
 <script>
-import {getArticle} from '@/api/data'
+import {getArticleList} from '@/api/data'
 import pageTable from '_c/page-table'
 export default {
   name: 'article_list',
   components: {pageTable},
   data () {
     return {
-      listFn: getArticle,
+      listFn: getArticleList,
       columns: [
         { title: '文章名', key: 'title', sortable: true },
         { title: '分类', key: 'class', sortable: false },
