@@ -8,7 +8,7 @@
           </Input>
         </i-Col>
         <i-Col span="3" offset="1">
-          <Cascader :data="classList" placeholder="分类"></Cascader>
+          <Cascader :data="classList" placeholder="分类" v-model="classId"></Cascader>
         </i-Col>
       </Row>
     </div>
@@ -30,6 +30,7 @@ export default {
     return {
       title: '',
       classList: [],
+      classId: null,
       editor: null
     }
   },
@@ -88,9 +89,14 @@ export default {
         this.$Message.error('文章内容不能为空')
         return false
       }
+      if (!this.classId) {
+        this.$Message.error('文章选择分类')
+        return false
+      }
       addArticle({
         title: this.title,
-        content: this.getEditorContent()
+        content: this.getEditorContent(),
+        classId: this.classId[this.classId.length - 1]
       }).then(res => {
         if (res.data.isSuccess) {
           this.$Message.success('新建成功')

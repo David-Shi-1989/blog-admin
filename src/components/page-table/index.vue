@@ -41,6 +41,13 @@ export default {
     listFunc: {
       type: Function
     },
+    deleteFunc: {
+      type: Function
+    },
+    idField: {
+      type: String,
+      default: 'id'
+    },
     tableColumn: {
       type: Array,
       default: () => []
@@ -109,13 +116,23 @@ export default {
       this.btn.isDeleteBtnDisable = true
     },
     onDeleteBtnClick () {
-      let selectionList = this.$refs.tables.getSelection()
+      var selectionList = this.$refs.tables.getSelection()
+      var me = this
       this.$refs.confirmModal.confirm({
         title: '确认',
         text: `确认删除选中的${selectionList.length}项吗?`,
         cb (isOK) {
           if (isOK) {
-            alert('begin delete')
+            if (me.deleteFunc) {
+              me.deleteFunc(selectionList.map(item => item[me.idField])).then(isOK => {
+                if (isOK) {
+                  me.$Message.success('删除成功')
+                  me.initData()
+                } else {
+                  me.$Message.error('删除失败')
+                }
+              })
+            }
           }
         }
       })

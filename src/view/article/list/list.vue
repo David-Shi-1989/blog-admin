@@ -2,14 +2,16 @@
   <div>
     <pageTable
       :listFunc="listFn"
+      :deleteFunc="deleteFn"
       :tableColumn="columns"
+      idField="article_id"
       createBtnText="写文章"
       @onCreateBtnClick="onCreateBtnClick"></pageTable>
   </div>
 </template>
 
 <script>
-import {getArticleList, changeArticleIsSelf} from '../data.js'
+import {EnumIsSelf, getArticleList, changeArticleIsSelf, removeArticle} from '../data.js'
 import pageTable from '_c/page-table'
 export default {
   name: 'article_list',
@@ -17,6 +19,7 @@ export default {
   data () {
     return {
       listFn: getArticleList,
+      deleteFn: removeArticle,
       columns: [
         { title: '文章名', key: 'article_title', sortable: true },
         { title: '分类', key: 'class_name', sortable: false },
@@ -25,10 +28,9 @@ export default {
           key: 'article_is_self',
           sortable: true,
           render: (h, params) => {
-            var val = params.row.article_is_self
             return h('i-switch', {
               props: {
-                value: val,
+                value: EnumIsSelf.isSelf(params.row.article_is_self),
                 size: 'small'
               },
               on: {
@@ -36,7 +38,7 @@ export default {
                   this.onIsSelfSwitchChange(params.row.article_id, newValue)
                 }
               }
-            }, val)
+            })
           }
         },
         { title: '访问量', key: 'article_read_count', sortable: true },
@@ -68,6 +70,14 @@ export default {
           }
         })
       }
+    },
+    deleteArticles (idList) {
+      return new Promise(function (resolve, reject) {
+        removeArticle(idList).then(res => {
+          console.log(res)
+          resolve(true)
+        })
+      })
     }
   }
 }

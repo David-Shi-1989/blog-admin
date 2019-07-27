@@ -167,8 +167,8 @@ var obj = {
   },
   addArticle (data) {
     const con = require('./index')
-    var insertSqlStr = `INSERT INTO \`${this.TableName.list}\` (\`${this.fields.list.id}\`,\`${this.fields.list.title}\`,\`${this.fields.list.content}\`,\`${this.fields.list.create_time}\`) VALUES (?,?,?,?)`
-    var insertSqlParams = [uuid.v1(), data.title, data.content, (new Date()).format('yyyy/MM/dd hh:mm:ss')]
+    var insertSqlStr = `INSERT INTO \`${this.TableName.list}\` (\`${this.fields.list.id}\`,\`${this.fields.list.title}\`,\`${this.fields.list.content}\`,\`${this.fields.list.class_id}\`, \`${this.fields.list.create_time}\`) VALUES (?,?,?,?,?)`
+    var insertSqlParams = [uuid.v1(), data.title, data.content, data.classId, (new Date()).format('yyyy/MM/dd hh:mm:ss')]
     return new Promise(function (resolve, reject) {
       con.query(insertSqlStr, insertSqlParams, function (err, result) {
         var resultObj = {
@@ -180,6 +180,26 @@ var obj = {
         } else {
           resultObj.isSuccess = true
           resultObj.id = insertSqlParams[0]
+        }
+        resolve(resultObj)
+      })
+    })
+  },
+  removeArticle (idList) {
+    const con = require('./index')
+    var insertSqlStr = `DELETE FROM \`${this.TableName.list}\` WHERE \`${this.fields.list.id}\` IN (${idList.map(item=>`'${item}'`).join(',')})`
+    var insertSqlParams = []
+    return new Promise(function (resolve, reject) {
+      con.query(insertSqlStr, insertSqlParams, function (err, result) {
+        var resultObj = {
+          isSuccess: false
+        }
+        if (err) {
+          console.log('[INSERT ERROR] - ', err.message)
+          resultObj.message = err.message
+        } else {
+          resultObj.isSuccess = true
+          resultObj.affectedRows = result.affectedRows
         }
         resolve(resultObj)
       })

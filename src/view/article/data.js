@@ -1,4 +1,14 @@
 import axios from '@/libs/api.request'
+// Enum
+export const EnumIsSelf = {
+  0: '转载',
+  1: '原创',
+  isSelf (val) {
+    return (val === 1)
+  }
+}
+
+// Action
 // 获取文章列表
 export const getArticleList = (current, size) => {
   return axios.request({
@@ -21,7 +31,17 @@ export const addArticle = (data) => {
     data
   })
 }
-
+export const removeArticle = (idList) => {
+  return new Promise(function (resolve, reject) {
+    axios.request({
+      url: 'api/article/list',
+      method: 'delete',
+      data: idList
+    }).then(res => {
+      resolve(res.data.isSuccess && res.data.affectedRows === idList.length)
+    })
+  })
+}
 // 获取文章分类列表
 export const getArticleClass = (current, size) => {
   return new Promise(function (resolve, reject) {

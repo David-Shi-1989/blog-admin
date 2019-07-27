@@ -31,6 +31,13 @@ router.post('/article/list', function (req, res) {
   })
 })
 
+router.delete('/article/list', function (req, res) {
+  var data = req.body
+  SqlController.removeArticle(data).then((result) => {
+    res.status(200).send(result).end()
+  })
+})
+
 router.get('/article/class', function (req, res) {
   SqlController.getClass(req.query).then((result) => {
     res.status(200).send(result).end()
