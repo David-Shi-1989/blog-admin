@@ -19,7 +19,7 @@ export default {
         {
           title: '根目录',
           expand: true,
-          id: -1,
+          id: null,
           render: (h, { root, node, data }) => {
             return h('span', {
               style: {
@@ -78,6 +78,7 @@ export default {
     initData () {
       getArticleClass(1, 200).then(list => {
         var children = this.handleData(list)
+        console.log(children)
         this.$set(this.data[0].children, children)
       })
     },
@@ -250,6 +251,7 @@ export default {
         parentId: oData.parentId,
         id: oData.id
       }
+      debugger
       var isCreate = (oData.id !== undefined || oData.id !== null)
       ArticleClassNameRepeat(newData.title, newData.id).then(isRepeat => {
         if (!isRepeat) {

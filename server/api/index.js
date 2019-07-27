@@ -17,6 +17,13 @@ router.get('/article/list', function (req, res) {
   // res.status(200).send(resData)
 })
 
+router.put('/article/:id/is_self', function (req, res) {
+  let isSelf = req.body.isSelf
+  SqlController.changeArticleIsSelf(req.params.id, isSelf).then(result => {
+    res.status(200).send(result).end()
+  })
+})
+
 router.post('/article/list', function (req, res) {
   var data = req.body
   SqlController.addArticle(data).then((result) => {

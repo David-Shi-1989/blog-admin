@@ -9,12 +9,21 @@
         <i class="ivu-icon ivu-icon-md-close"></i>
         删除
       </Button>
-      <Button type="default" size="small">
+      <Button type="default" size="small" @click="onRefreshBtnClick">
         <i class="ivu-icon ivu-icon-md-refresh"></i>
         刷新
       </Button>
     </div>
-    <Table ref="tables" searchable search-place="top" size="small" :data="tableData" :columns="tableColumn" @on-delete="handleDelete" :height="520"></Table>
+    <Table
+      ref="tables"
+      searchable
+      search-place="top"
+      size="small"
+      :data="tableData"
+      :columns="tableColumn"
+      :loading="table.loading"
+      @on-delete="handleDelete"
+      :height="520"></Table>
     <div class="sc-pt-page-wrap" style="height:30px;">
       <Page :total="pageTool.total" :page-size="pageTool.size" size="small" show-total show-elevator show-sizer @on-change="onPageCurrentChange" @on-page-size-change="onPageSizeChange"></Page>
     </div>
@@ -49,6 +58,9 @@ export default {
     return {
       identity: ('').random(10),
       tableData: [],
+      table: {
+        loading: false
+      },
       pageTool: {
         total: 0,
         current: 1,
@@ -61,9 +73,11 @@ export default {
   },
   methods: {
     initData () {
+      this.table.loading = true
       this.listFunc(this.pageTool.current, this.pageTool.size).then(res => {
         this.tableData = res.data.list
         this.pageTool.total = res.data.total
+        this.table.loading = false
       })
     },
     onPageSizeChange (newPageSize) {
@@ -76,6 +90,9 @@ export default {
     },
     onCreateBtnClick () {
       this.$emit('onCreateBtnClick')
+    },
+    onRefreshBtnClick () {
+      this.initData()
     },
     handleDelete () {}
   }

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import {getArticleList} from '@/api/data'
+import {getArticleList, changeArticleIsSelf} from '../data.js'
 import pageTable from '_c/page-table'
 export default {
   name: 'article_list',
@@ -19,7 +19,7 @@ export default {
       listFn: getArticleList,
       columns: [
         { title: '文章名', key: 'article_title', sortable: true },
-        { title: '分类', key: 'article_class_id', sortable: false },
+        { title: '分类', key: 'class_name', sortable: false },
         {
           title: '原创',
           key: 'article_is_self',
@@ -30,6 +30,11 @@ export default {
               props: {
                 value: val,
                 size: 'small'
+              },
+              on: {
+                'on-change': (newValue) => {
+                  this.onIsSelfSwitchChange(params.row.article_id, newValue)
+                }
               }
             }, val)
           }
@@ -52,6 +57,17 @@ export default {
     handleDelete () {},
     onCreateBtnClick () {
       this.$router.push({name: 'article_create'})
+    },
+    onIsSelfSwitchChange (id, newValue) {
+      if (id && [true, false].includes(newValue)) {
+        changeArticleIsSelf(id, newValue).then(res => {
+          if (res.data.isSuccess && res.data.affectedRows === 1) {
+            this.$Message.success('修改成功')
+          } else {
+            this.$Message.success('修改失败')
+          }
+        })
+      }
     }
   }
 }

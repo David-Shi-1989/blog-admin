@@ -1,4 +1,5 @@
 var uuid = require('uuid')
+const utils = require('./utils')
 var obj = {
   TableName: {
     list: 'Article_List',
@@ -18,8 +19,9 @@ var obj = {
       title: 'article_title',
       content: 'article_content',
       create_time: 'article_create_time',
-      articleUpdateTime: 'article_create_time',
+      articleUpdateTime: 'article_update_time',
       isPublish: 'article_is_publish',
+      isSelf: 'article_is_self',
       isTop: 'article_is_top',
       readCount: 'article_read_count',
       commentCount: 'article_comment_count',
@@ -131,7 +133,7 @@ var obj = {
    * Article
    ******************************/
   getArticle (data) {
-    var sql = `SELECT * FROM ${this.TableName.list}`
+    var sql = `SELECT * FROM ${this.TableName.list} AS list _WHERE_ LEFT JOIN ${this.TableName.class} AS class ON class.${this.fields.class.id} = list.${this.fields.list.class_id}`
     let queryArr = []
     if (data) {
       for (let key in this.fields.class) {
@@ -142,7 +144,9 @@ var obj = {
       }
     }
     if (queryArr.length > 0) {
-      sql += ` WHERE ${queryArr.join(' AND ')}`
+      sql = sql.replace('_WHERE_', `WHERE ${queryArr.join(' AND ')}`)
+    } else {
+      sql = sql.replace('_WHERE_', '')
     }
     const con = require('./index')
     return new Promise(function (resolve, reject) {
@@ -176,6 +180,26 @@ var obj = {
         } else {
           resultObj.isSuccess = true
           resultObj.id = insertSqlParams[0]
+        }
+        resolve(resultObj)
+      })
+    })
+  },
+  changeArticleIsSelf (id, isSelf) {
+    const con = require('./index')
+    var insertSqlStr = `UPDATE \`${this.TableName.list}\` SET \`${this.fields.list.isSelf}\` = ? WHERE \`${this.fields.list.id}\` = ?`
+    var insertSqlParams = [isSelf, id]
+    return new Promise(function (resolve, reject) {
+      con.query(insertSqlStr, insertSqlParams, function (err, result) {
+        var resultObj = {
+          isSuccess: false
+        }
+        if (err) {
+          console.log('[UPDATE ERROR] - ', err.message)
+          resultObj.message = err.message
+        } else {
+          resultObj.isSuccess = true
+          resultObj.affectedRows = result.affectedRows
         }
         resolve(resultObj)
       })
