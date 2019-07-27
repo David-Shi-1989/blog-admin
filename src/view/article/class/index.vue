@@ -251,7 +251,6 @@ export default {
         parentId: oData.parentId,
         id: oData.id
       }
-      debugger
       var isCreate = (oData.id !== undefined || oData.id !== null)
       ArticleClassNameRepeat(newData.title, newData.id).then(isRepeat => {
         if (!isRepeat) {

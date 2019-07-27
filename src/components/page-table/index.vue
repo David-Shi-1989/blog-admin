@@ -5,7 +5,7 @@
         <i class="ivu-icon ivu-icon-md-add"></i>
         {{createBtnText}}
       </Button>
-      <Button v-if="isDeleteBtnShow" type="default" size="small">
+      <Button v-if="isDeleteBtnShow" type="default" size="small" :disabled="btn.isDeleteBtnDisable" @click="onDeleteBtnClick">
         <i class="ivu-icon ivu-icon-md-close"></i>
         删除
       </Button>
@@ -20,19 +20,23 @@
       search-place="top"
       size="small"
       :data="tableData"
-      :columns="tableColumn"
+      :columns="getTableColumn"
       :loading="table.loading"
+      @on-selection-change="onTableSelectionChange"
       @on-delete="handleDelete"
-      :height="520"></Table>
+      :height="400"></Table>
     <div class="sc-pt-page-wrap" style="height:30px;">
       <Page :total="pageTool.total" :page-size="pageTool.size" size="small" show-total show-elevator show-sizer @on-change="onPageCurrentChange" @on-page-size-change="onPageSizeChange"></Page>
     </div>
+    <confirmModal ref="confirmModal"></confirmModal>
   </div>
 </template>
 
 <script>
+import confirmModal from '_c/confirm'
 export default {
   name: 'cpt_page_table',
+  components: {confirmModal},
   props: {
     listFunc: {
       type: Function
@@ -58,6 +62,9 @@ export default {
     return {
       identity: ('').random(10),
       tableData: [],
+      btn: {
+        isDeleteBtnDisable: true
+      },
       table: {
         loading: false
       },
@@ -80,6 +87,11 @@ export default {
         this.table.loading = false
       })
     },
+    // table
+    onTableSelectionChange (selectionList) {
+      this.btn.isDeleteBtnDisable = (selectionList.length === 0)
+    },
+    // page
     onPageSizeChange (newPageSize) {
       this.pageTool.size = parseInt(newPageSize)
       this.initData()
@@ -88,13 +100,38 @@ export default {
       this.pageTool.current = parseInt(newCurrent)
       this.initData()
     },
+    // btn
     onCreateBtnClick () {
       this.$emit('onCreateBtnClick')
     },
     onRefreshBtnClick () {
       this.initData()
+      this.btn.isDeleteBtnDisable = true
+    },
+    onDeleteBtnClick () {
+      let selectionList = this.$refs.tables.getSelection()
+      this.$refs.confirmModal.confirm({
+        title: '确认',
+        text: `确认删除选中的${selectionList.length}项吗?`,
+        cb (isOK) {
+          if (isOK) {
+            alert('begin delete')
+          }
+        }
+      })
     },
     handleDelete () {}
+  },
+  computed: {
+    getTableColumn () {
+      return [
+        {
+          type: 'selection',
+          width: 60
+        },
+        ...this.tableColumn
+      ]
+    }
   }
 }
 </script>
