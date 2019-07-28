@@ -3,9 +3,9 @@
     <div class="sww-header">
       <Row>
         <i-Col span="10">
-          <Input v-model="title">
+          <i-Input v-model="title">
             <span slot="prepend" style="width:100px;text-align:center;display:inline-block;">标题</span>
-          </Input>
+          </i-Input>
         </i-Col>
         <i-Col span="3" offset="1">
           <Cascader :data="classList" placeholder="分类" v-model="classId"></Cascader>
@@ -23,7 +23,6 @@
 import '_s/ueditor/ueditor.config.js'
 import '_s/ueditor/ueditor.all.js'
 import {getArticleClass, addArticle} from '@/api/data'
-import {isArray} from 'util'
 export default {
   name: 'article_add',
   data () {
@@ -42,7 +41,7 @@ export default {
   },
   methods: {
     renderUEditor () {
-      this.editor = UE.getEditor('article_editor_container', {
+      this.editor = window.UE.getEditor('article_editor_container', {
         initialFrameHeight: 500,
         scaleEnabled: true
       })
@@ -55,8 +54,9 @@ export default {
         this.classList = handlerData(list)
       })
       function handlerData (list) {
-        var newList = [], idArr = []
-        if (list && isArray(list)) {
+        var newList = []
+        var idArr = []
+        if (list && list.concat) {
           for (let i = 0; i < list.length; i++) {
             newList.push({
               label: list[i].title,
@@ -105,6 +105,11 @@ export default {
     },
     getEditorContent () {
       return this.editor.getContent()
+    }
+  },
+  beforeDestroy () {
+    if (this.editor && this.editor.destroy) {
+      this.editor.destroy()
     }
   }
 }

@@ -94,7 +94,7 @@ export default [
           hideInBread: true,
           hideInMenu: true
         },
-        component: () => import('@/view/article/add_article')
+        component: () => import('@/view/article/list/add_article')
       }
     ]
   },
