@@ -24,6 +24,14 @@ export const changeArticleIsSelf = (articleId, isSelf) => {
     data: {isSelf}
   })
 }
+// 修改一篇文章的是否发布
+export const changeArticleIsPublish = (articleId, isSelf) => {
+  return axios.request({
+    url: `api/article/${articleId}/is_publish`,
+    method: 'put',
+    data: {isSelf}
+  })
+}
 export const addArticle = (data) => {
   return axios.request({
     url: 'api/article/list',

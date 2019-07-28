@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import {EnumIsSelf, getArticleList, changeArticleIsSelf, removeArticle} from '../data.js'
+import {EnumIsSelf, getArticleList, changeArticleIsPublish, removeArticle} from '../data.js'
 import pageTable from '_c/page-table'
 export default {
   name: 'article_list',
@@ -24,18 +24,18 @@ export default {
         { title: '文章名', key: 'article_title', sortable: true },
         { title: '分类', key: 'class_name', sortable: false },
         {
-          title: '原创',
-          key: 'article_is_self',
+          title: '发布',
+          key: 'article_is_publish',
           sortable: true,
           render: (h, params) => {
             return h('i-switch', {
               props: {
-                value: EnumIsSelf.isSelf(params.row.article_is_self),
+                value: EnumIsSelf.isSelf(params.row.article_is_publish),
                 size: 'small'
               },
               on: {
                 'on-change': (newValue) => {
-                  this.onIsSelfSwitchChange(params.row.article_id, newValue)
+                  this.onIsPublishSwitchChange(params.row.article_id, newValue)
                 }
               }
             })
@@ -80,9 +80,9 @@ export default {
     onCreateBtnClick () {
       this.$router.push({name: 'article_create'})
     },
-    onIsSelfSwitchChange (id, newValue) {
+    onIsPublishSwitchChange (id, newValue) {
       if (id && [true, false].includes(newValue)) {
-        changeArticleIsSelf(id, newValue).then(res => {
+        changeArticleIsPublish(id, newValue).then(res => {
           if (res.data.isSuccess && res.data.affectedRows === 1) {
             this.$Message.success('修改成功')
           } else {

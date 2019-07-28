@@ -1,5 +1,4 @@
 var uuid = require('uuid')
-const utils = require('./utils')
 var obj = {
   TableName: {
     list: 'Article_List',
@@ -209,6 +208,26 @@ var obj = {
     const con = require('./index')
     var insertSqlStr = `UPDATE \`${this.TableName.list}\` SET \`${this.fields.list.isSelf}\` = ? WHERE \`${this.fields.list.id}\` = ?`
     var insertSqlParams = [isSelf, id]
+    return new Promise(function (resolve, reject) {
+      con.query(insertSqlStr, insertSqlParams, function (err, result) {
+        var resultObj = {
+          isSuccess: false
+        }
+        if (err) {
+          console.log('[UPDATE ERROR] - ', err.message)
+          resultObj.message = err.message
+        } else {
+          resultObj.isSuccess = true
+          resultObj.affectedRows = result.affectedRows
+        }
+        resolve(resultObj)
+      })
+    })
+  },
+  changeArticleIsPublish (id, isPublish) {
+    const con = require('./index')
+    var insertSqlStr = `UPDATE \`${this.TableName.list}\` SET \`${this.fields.list.isPublish}\` = ? WHERE \`${this.fields.list.id}\` = ?`
+    var insertSqlParams = [isPublish, id]
     return new Promise(function (resolve, reject) {
       con.query(insertSqlStr, insertSqlParams, function (err, result) {
         var resultObj = {

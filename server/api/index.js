@@ -17,9 +17,21 @@ router.get('/article/list', function (req, res) {
   // res.status(200).send(resData)
 })
 
-router.put('/article/:id/is_self', function (req, res) {
+router.put('/article/:id/:field', function (req, res) {
   let isSelf = req.body.isSelf
-  SqlController.changeArticleIsSelf(req.params.id, isSelf).then(result => {
+  let func = null
+  switch (req.params.field) {
+    case 'is_self':
+      func = SqlController.changeArticleIsSelf
+      break
+    case 'is_publish':
+      func = SqlController.changeArticleIsPublish
+      break
+    default:
+      res.status(404).end()
+      break
+  }
+  func.apply(SqlController, [req.params.id, isSelf]).then(result => {
     res.status(200).send(result).end()
   })
 })
