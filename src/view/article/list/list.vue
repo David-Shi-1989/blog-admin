@@ -41,15 +41,35 @@ export default {
             })
           }
         },
-        { title: '访问量', key: 'article_read_count', sortable: true },
-        { title: '评论量', key: 'article_comment_count', sortable: true },
+        { title: '访问量', key: 'article_read_count', sortable: true, width: 100 },
+        { title: '评论量', key: 'article_comment_count', sortable: true, width: 100 },
         {
           title: '发布时间',
           key: 'article_create_time',
           sortable: true,
+          width: 200,
           render: (h, params) => {
             var val = (new Date(params.row.article_create_time)).format('yyyy/MM/dd hh:mm:ss')
             return h('span', {}, val)
+          }
+        },
+        {
+          title: '操作',
+          key: 'action',
+          render: (h, params) => {
+            let editBtn = h('Button', {
+              props: {
+                size: 'small',
+                type: 'default'
+              }
+            }, '编辑')
+            let removeBtn = h('Button', {
+              props: {
+                size: 'small',
+                type: 'error'
+              }
+            }, '删除')
+            return h('div', [editBtn, removeBtn])
           }
         }
       ]
