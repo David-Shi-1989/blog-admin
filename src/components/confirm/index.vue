@@ -1,26 +1,27 @@
 <template>
-  <div>
-    <Modal v-model="isShow" :title="title">
-      <div>
-        <Icon type="md-bulb" />
-        <p>{{text}}</p>
-      </div>
-      <div slot="footer">
-        <Button type="primary" @click="onOkClick">确定</Button>
-        <Button type="default" @click="onCancelClick">取消</Button>
-      </div>
-    </Modal>
-  </div>
+  <Modal v-model="isShow" :title="title" style="position:relative;z-index:9999;">
+    <div>
+      <Icon type="md-bulb" />
+      <p>{{text}}</p>
+    </div>
+    <div slot="footer">
+      <Button type="primary" @click="onOkClick">{{okBtnText}}</Button>
+      <Button type="default" @click="onCancelClick">{{cancelBtnText}}</Button>
+    </div>
+  </Modal>
 </template>
 
 <script>
+import {defaultProps} from './confirm.js'
 export default {
   name: 'comfirm_modal',
   data () {
     return {
-      isShow: false,
-      title: '提示',
-      text: '请确认',
+      isShow: true,
+      title: defaultProps.title,
+      text: defaultProps.text,
+      okBtnText: defaultProps.title,
+      cancelBtnText: defaultProps.title,
       cb: null
     }
   },
@@ -51,6 +52,14 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.sww-mask {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.3);
+}
 </style>

@@ -28,15 +28,15 @@
     <div class="sc-pt-page-wrap" style="height:30px;">
       <Page :total="pageTool.total" :page-size="pageTool.size" size="small" show-total show-elevator show-sizer @on-change="onPageCurrentChange" @on-page-size-change="onPageSizeChange"></Page>
     </div>
-    <confirmModal ref="confirmModal"></confirmModal>
+    <!-- <confirmModal ref="confirmModal"></confirmModal> -->
   </div>
 </template>
 
 <script>
-import confirmModal from '_c/confirm'
+// import confirmModal from '_c/confirm'
 export default {
   name: 'cpt_page_table',
-  components: {confirmModal},
+  // components: {confirmModal},
   props: {
     listFunc: {
       type: Function
@@ -118,8 +118,7 @@ export default {
     onDeleteBtnClick () {
       var selectionList = this.$refs.tables.getSelection()
       var me = this
-      this.$refs.confirmModal.confirm({
-        title: '确认',
+      this.$Confirm.show({
         text: `确认删除选中的${selectionList.length}项吗?`,
         cb (isOK) {
           if (isOK) {
@@ -136,6 +135,24 @@ export default {
           }
         }
       })
+      // this.$refs.confirmModal.confirm({
+      //   title: '确认',
+      //   text: `确认删除选中的${selectionList.length}项吗?`,
+      //   cb (isOK) {
+      //     if (isOK) {
+      //       if (me.deleteFunc) {
+      //         me.deleteFunc(selectionList.map(item => item[me.idField])).then(isOK => {
+      //           if (isOK) {
+      //             me.$Message.success('删除成功')
+      //             me.initData()
+      //           } else {
+      //             me.$Message.error('删除失败')
+      //           }
+      //         })
+      //       }
+      //     }
+      //   }
+      // })
     },
     handleDelete () {}
   },

@@ -95,6 +95,16 @@ export default [
           hideInMenu: true
         },
         component: () => import('@/view/article/list/add_article')
+      },
+      {
+        path: 'edit/:id',
+        name: 'article_edit',
+        meta: {
+          title: '修改文章',
+          hideInBread: true,
+          hideInMenu: true
+        },
+        component: () => import('@/view/article/list/add_article')
       }
     ]
   },

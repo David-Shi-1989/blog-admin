@@ -1,6 +1,7 @@
 <template>
   <div>
     <pageTable
+      class="article-list-table"
       :listFunc="listFn"
       :deleteFunc="deleteFn"
       :tableColumn="columns"
@@ -57,19 +58,45 @@ export default {
           title: '操作',
           key: 'action',
           render: (h, params) => {
-            let editBtn = h('Button', {
-              props: {
-                size: 'small',
-                type: 'default'
+            let editIcon = h('i', {
+              class: {
+                'fa': true,
+                'fa-pencil': true
+              },
+              style: {
+                color: '#555',
+                fontSize: '14px',
+                cursor: 'pointer'
               }
-            }, '编辑')
-            let removeBtn = h('Button', {
-              props: {
-                size: 'small',
-                type: 'error'
+            })
+            let editLink = h('router-link', {
+              attrs: {
+                title: '编辑',
+                to: `/article/edit/${params.row.article_id}`
+              },
+              style: {
+                marginRight: '10px'
               }
-            }, '删除')
-            return h('div', [editBtn, removeBtn])
+            }, [editIcon])
+            let removeIcon = h('i', {
+              class: {
+                'fa': true,
+                'fa-remove': true
+              },
+              style: {
+                fontSize: '14px',
+                cursor: 'pointer'
+              },
+              attrs: {
+                title: '删除'
+              },
+              on: {
+                click: () => {
+                  this.onRowDeleteBtn(params.row)
+                }
+              }
+            })
+            return h('div', [editLink, removeIcon])
           }
         }
       ]
@@ -91,6 +118,9 @@ export default {
         })
       }
     },
+    onRowDeleteBtn (row) {
+      this.$Confirm.show()
+    },
     deleteArticles (idList) {
       return new Promise(function (resolve, reject) {
         removeArticle(idList).then(res => {
@@ -104,5 +134,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
