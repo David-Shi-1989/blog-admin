@@ -32,6 +32,14 @@ export const changeArticleIsPublish = (articleId, isSelf) => {
     data: {isSelf}
   })
 }
+// 获取一篇文章详情
+export const getArtile = (id) => {
+  return axios.request({
+    url: `/api/article/${id}`,
+    method: 'get'
+  })
+}
+// 写文章
 export const addArticle = (data) => {
   return axios.request({
     url: 'api/article/list',
@@ -39,6 +47,7 @@ export const addArticle = (data) => {
     data
   })
 }
+// 删除文章
 export const removeArticle = (idList) => {
   return new Promise(function (resolve, reject) {
     axios.request({

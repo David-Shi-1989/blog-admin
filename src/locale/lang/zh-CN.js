@@ -45,5 +45,6 @@ export default {
   article_list: '文章列表',
   article_class_list: '文章分类',
   article_tag_list: '文章标签',
-  article_create: '写文章'
+  article_create: '写文章',
+  article_edit: '修改文章'
 }

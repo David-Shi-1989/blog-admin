@@ -97,7 +97,7 @@ export default [
         component: () => import('@/view/article/list/add_article')
       },
       {
-        path: 'edit/:id',
+        path: 'edit',
         name: 'article_edit',
         meta: {
           title: '修改文章',

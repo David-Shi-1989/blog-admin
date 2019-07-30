@@ -21,7 +21,7 @@ export default {
     return this._show(options)
   },
   delete (options) {
-    options.text = modeText.delete.text
+    options.text = options.text || modeText.delete.text
     return this._show(options)
   },
   _show (options) {

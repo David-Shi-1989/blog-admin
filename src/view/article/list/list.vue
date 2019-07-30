@@ -73,7 +73,7 @@ export default {
             let editLink = h('router-link', {
               attrs: {
                 title: '编辑',
-                to: `/article/edit/${params.row.article_id}`
+                to: `/article/edit?id=${params.row.article_id}`
               },
               style: {
                 marginRight: '10px'
@@ -121,7 +121,8 @@ export default {
     },
     onRowDeleteBtn (row) {
       var me = this
-      this.$Confirm.show({
+      this.$Confirm.delete({
+        text: `确认删除【${row.article_title}】吗？`,
         cb: isOK => {
           if (isOK) {
             me.deleteArticles([row.article_id]).then(isSuccess => {

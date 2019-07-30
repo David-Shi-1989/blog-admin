@@ -22,11 +22,13 @@
 <script>
 import '_s/ueditor/ueditor.config.js'
 import '_s/ueditor/ueditor.all.js'
-import {getArticleClass, addArticle} from '@/api/data'
+import {getArticleClass, addArticle, getArtile} from '@/api/data'
 export default {
   name: 'article_add',
   data () {
     return {
+      isCreate: false,
+      id: null,
       title: '',
       classList: [],
       classId: null,
@@ -34,6 +36,10 @@ export default {
     }
   },
   created () {
+    this.isCreate = !(this.$route.query.id && /^[0-9a-zA-Z-]+$/.test(this.$route.query.id))
+    if (!this.isCreate) {
+      this.id = this.$route.query.id
+    }
     this.initData()
   },
   mounted () {
@@ -47,7 +53,16 @@ export default {
       })
     },
     initData () {
+      if (!this.isCreate) {
+        this.getArticleData()
+      }
       this.getClassData()
+    },
+    getArticleData () {
+      debugger
+      getArtile(this.id).then(res => {
+        $.extend(this.data, res.data)
+      })
     },
     getClassData () {
       getArticleClass(1, 200).then(list => {

@@ -1,8 +1,8 @@
 var uuid = require('uuid')
 var obj = {
   TableName: {
-    list: 'Article_List',
-    class: 'Article_Class'
+    list: 'article_list',
+    class: 'article_class'
   },
   fields: {
     class: {
@@ -131,7 +131,7 @@ var obj = {
   /******************************
    * Article
    ******************************/
-  getArticle (data) {
+  getArticleList (data) {
     var sql = `SELECT * FROM ${this.TableName.list} AS list _WHERE_ LEFT JOIN ${this.TableName.class} AS class ON class.${this.fields.class.id} = list.${this.fields.list.class_id}`
     let queryArr = []
     if (data) {
@@ -147,6 +147,25 @@ var obj = {
     } else {
       sql = sql.replace('_WHERE_', '')
     }
+    const con = require('./index')
+    return new Promise(function (resolve, reject) {
+      con.query(sql, function (err, result) {
+        var resultObj = {
+          isSuccess: false
+        }
+        if (err) {
+          console.log('[SELECT ERROR] - ', err.message)
+          resultObj.message = err.message
+        } else {
+          resultObj.isSuccess = true
+          resultObj.list = result
+        }
+        resolve(resultObj)
+      })
+    })
+  },
+  getArticle (id) {
+    var sql = `SELECT * FROM ${this.TableName.list} AS list WHERE list.${this.fields.list.id} = '${id}'`
     const con = require('./index')
     return new Promise(function (resolve, reject) {
       con.query(sql, function (err, result) {
