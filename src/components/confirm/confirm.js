@@ -5,7 +5,10 @@ export const defaultProps = {
   title: '请确认',
   text: '确认此操作吗？',
   okBtnText: '确认',
-  cancelBtnText: '取消'
+  cancelBtnText: '取消',
+  cb: isOK => {
+    console.log(isOK)
+  }
 }
 
 Confirm.newInstance = properties => {

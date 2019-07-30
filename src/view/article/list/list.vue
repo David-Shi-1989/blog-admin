@@ -1,6 +1,7 @@
 <template>
   <div>
     <pageTable
+      ref="pagetable"
       class="article-list-table"
       :listFunc="listFn"
       :deleteFunc="deleteFn"
@@ -119,12 +120,22 @@ export default {
       }
     },
     onRowDeleteBtn (row) {
-      this.$Confirm.show()
+      var me = this
+      this.$Confirm.show({
+        cb: isOK => {
+          if (isOK) {
+            me.deleteArticles([row.article_id]).then(isSuccess => {
+              if (isSuccess) {
+                me.$refs.pagetable.initData()
+              }
+            })
+          }
+        }
+      })
     },
     deleteArticles (idList) {
       return new Promise(function (resolve, reject) {
         removeArticle(idList).then(res => {
-          console.log(res)
           resolve(true)
         })
       })

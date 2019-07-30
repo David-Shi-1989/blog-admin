@@ -1,13 +1,33 @@
 <template>
-  <Modal v-model="isShow" :title="title" style="position:relative;z-index:9999;">
-    <div>
+  <Modal
+    v-model="isShow"
+    style="position:relative;z-index:9999;"
+    :closable="false"
+    :mask-closable="false"
+    :width="400"
+    class="sww-confirm-modal"
+    :on-text="okBtnText"
+    :cancel-text="cancelBtnText"
+    @on-ok="onOkClick"
+    @on-cancel="onCancelClick">
+    <div slot="header">
+      <div class="ivu-modal-confirm-head-icon ivu-modal-confirm-head-icon-confirm"><Icon type="md-help-circle"></Icon></div>
+      <div class="ivu-modal-confirm-head-title">{{title}}</div>
+    </div>
+    <!-- <div class="sww-confirm-modal-header">
+      <Icon type="md-help-circle"></Icon><span>{{title}}</span>
+    </div> -->
+    <div class="ivu-modal-confirm-body">
+      <p>{{text}}</p>
+    </div>
+    <!-- <div>
       <Icon type="md-bulb" />
       <p>{{text}}</p>
     </div>
     <div slot="footer">
       <Button type="primary" @click="onOkClick">{{okBtnText}}</Button>
       <Button type="default" @click="onCancelClick">{{cancelBtnText}}</Button>
-    </div>
+    </div> -->
   </Modal>
 </template>
 
@@ -53,13 +73,21 @@ export default {
 </script>
 
 <style scoped>
-.sww-mask {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
+.ivu-modal-mask {
   z-index: 9999;
-  background-color: rgba(0, 0, 0, 0.3);
+}
+.ivu-modal-wrap {
+  z-index: 9999;
+}
+.sww-confirm-modal >>> .ivu-modal-header {
+  border-bottom: 0;
+  padding: 0;
+}
+.sww-confirm-modal >>> .ivu-modal-footer {
+  border-top: none !important;
+  padding: 0;
+}
+.sww-confirm-modal >>> .ivu-modal-body {
+  padding: 16px 0 20px 0;
 }
 </style>

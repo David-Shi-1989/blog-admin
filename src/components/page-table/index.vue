@@ -135,24 +135,6 @@ export default {
           }
         }
       })
-      // this.$refs.confirmModal.confirm({
-      //   title: '确认',
-      //   text: `确认删除选中的${selectionList.length}项吗?`,
-      //   cb (isOK) {
-      //     if (isOK) {
-      //       if (me.deleteFunc) {
-      //         me.deleteFunc(selectionList.map(item => item[me.idField])).then(isOK => {
-      //           if (isOK) {
-      //             me.$Message.success('删除成功')
-      //             me.initData()
-      //           } else {
-      //             me.$Message.error('删除失败')
-      //           }
-      //         })
-      //       }
-      //     }
-      //   }
-      // })
     },
     handleDelete () {}
   },
