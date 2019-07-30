@@ -35,7 +35,7 @@ export const changeArticleIsPublish = (articleId, isSelf) => {
 // 获取一篇文章详情
 export const getArtile = (id) => {
   return axios.request({
-    url: `/api/article/${id}`,
+    url: `api/article/${id}`,
     method: 'get'
   })
 }

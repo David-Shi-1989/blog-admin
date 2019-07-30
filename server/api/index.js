@@ -18,7 +18,7 @@ router.get('/article/list', function (req, res) {
 })
 
 router.get('/article/:id', function (req, res) {
-  SqlController.getArticle(req.query.id).then((result) => {
+  SqlController.getArticle(req.params.id).then((result) => {
     if (result.list.length) {
       res.status(200).send(result.list[0]).end()
     } else {

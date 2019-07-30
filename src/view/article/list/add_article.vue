@@ -22,7 +22,7 @@
 <script>
 import '_s/ueditor/ueditor.config.js'
 import '_s/ueditor/ueditor.all.js'
-import {getArticleClass, addArticle, getArtile} from '@/api/data'
+import {getArticleClass, addArticle, getArtile} from '../data'
 export default {
   name: 'article_add',
   data () {
