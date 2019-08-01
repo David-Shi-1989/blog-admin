@@ -7,12 +7,15 @@ var obj = {
   getRandomStr (length, chars) {
     var len = length || 32
     var $chars = chars || 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz0123456789'
-　  var maxPos = $chars.length
+    var maxPos = $chars.length
     var str = ''
-　　for (i = 0; i < len; i++) {
-　　　　pwd += $chars.charAt(Math.floor(Math.random() * maxPos))
-　　}
-　　return str;
+    for (let i = 0; i < len; i++) {
+      str += $chars.charAt(Math.floor(Math.random() * maxPos))
+    }
+    return str
+  },
+  isUUID (str) {
+    return /^[0-9a-zA-Z-]{10,}$/.test(str)
   }
 }
 module.exports = obj

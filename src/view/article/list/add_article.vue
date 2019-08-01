@@ -3,12 +3,12 @@
     <div class="sww-header">
       <Row>
         <i-Col span="10">
-          <i-Input v-model="title">
+          <i-Input v-model="article_title">
             <span slot="prepend" style="width:100px;text-align:center;display:inline-block;">标题</span>
           </i-Input>
         </i-Col>
         <i-Col span="3" offset="1">
-          <Cascader :data="classList" placeholder="分类" v-model="classId"></Cascader>
+          <Cascader :data="classList" placeholder="分类" v-model="article_class_id"></Cascader>
         </i-Col>
       </Row>
     </div>
@@ -28,22 +28,24 @@ export default {
   data () {
     return {
       isCreate: false,
-      id: null,
-      title: '',
+      article_id: null,
+      article_title: '',
       classList: [],
-      classId: null,
+      article_class_id: null,
+      content: '',
       editor: null
     }
   },
   created () {
     this.isCreate = !(this.$route.query.id && /^[0-9a-zA-Z-]+$/.test(this.$route.query.id))
     if (!this.isCreate) {
-      this.id = this.$route.query.id
+      this.article_id = this.$route.query.id
     }
     this.initData()
   },
   mounted () {
     this.renderUEditor()
+    this.setEditorContent(this.content)
   },
   methods: {
     renderUEditor () {
@@ -59,9 +61,10 @@ export default {
       this.getClassData()
     },
     getArticleData () {
-      debugger
-      getArtile(this.id).then(res => {
-        $.extend(this.data, res.data)
+      getArtile(this.article_id).then(res => {
+        this.article_title = res.data.article_title
+        this.article_class_id = [res.data.article_class_id]
+        this.content = res.data.article_content
       })
     },
     getClassData () {
@@ -96,7 +99,7 @@ export default {
     },
     onSaveBtnClick () {
       // 检查title
-      if (!this.title) {
+      if (!this.article_title) {
         this.$Message.error('文章标题不能少')
         return false
       }
@@ -104,14 +107,14 @@ export default {
         this.$Message.error('文章内容不能为空')
         return false
       }
-      if (!this.classId) {
+      if (!this.article_class_id) {
         this.$Message.error('文章选择分类')
         return false
       }
       addArticle({
-        title: this.title,
+        title: this.article_title,
         content: this.getEditorContent(),
-        classId: this.classId[this.classId.length - 1]
+        classId: this.article_class_id[this.article_class_id.length - 1]
       }).then(res => {
         if (res.data.isSuccess) {
           this.$Message.success('新建成功')
@@ -120,6 +123,9 @@ export default {
     },
     getEditorContent () {
       return this.editor.getContent()
+    },
+    setEditorContent (text) {
+      return this.editor.setEditorContent(text)
     }
   },
   beforeDestroy () {

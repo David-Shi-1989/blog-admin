@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const SqlController = require('../sql/article.js')
+var utils = require('../utils/index')
 
 router.get('/article/list', function (req, res) {
   SqlController.getArticleList(req.query).then((result) => {
@@ -17,23 +18,18 @@ router.get('/article/list', function (req, res) {
   // res.status(200).send(resData)
 })
 
-router.get('/article/:id', function (req, res) {
-  SqlController.getArticle(req.params.id).then((result) => {
-    if (result.list.length) {
-      res.status(200).send(result.list[0]).end()
-    } else {
-      res.status(404).end()
-    }
-  })
-  // var query = req.query
-  // var data = require('../fakeData/article.js').getList(query.current, query.size)
-  // var resData = {
-  //   total: data.total,
-  //   list: data.list,
-  //   current: data.current,
-  //   size: data.size
-  // }
-  // res.status(200).send(resData)
+router.get('/article/:id', function (req, res, next) {
+  if (utils.isUUID(req.params.id)) {
+    SqlController.getArticle(req.params.id).then((result) => {
+      if (result.list.length) {
+        res.status(200).send(result.list[0]).end()
+      } else {
+        res.status(404).end()
+      }
+    })
+  } else {
+    next()
+  }
 })
 
 router.put('/article/:id/:field', function (req, res) {
