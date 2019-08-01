@@ -45,7 +45,9 @@ export default {
   },
   mounted () {
     this.renderUEditor()
-    this.setEditorContent(this.content)
+    if (!this.isCreate) {
+      setTimeout(this.getArticleData, 500)
+    }
   },
   methods: {
     renderUEditor () {
@@ -55,9 +57,6 @@ export default {
       })
     },
     initData () {
-      if (!this.isCreate) {
-        this.getArticleData()
-      }
       this.getClassData()
     },
     getArticleData () {
@@ -65,6 +64,7 @@ export default {
         this.article_title = res.data.article_title
         this.article_class_id = [res.data.article_class_id]
         this.content = res.data.article_content
+        this.setEditorContent(this.content)
       })
     },
     getClassData () {
@@ -125,7 +125,7 @@ export default {
       return this.editor.getContent()
     },
     setEditorContent (text) {
-      return this.editor.setEditorContent(text)
+      return this.editor.setContent(text)
     }
   },
   beforeDestroy () {
